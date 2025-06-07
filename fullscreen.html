@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Loading...</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+      overflow: hidden;
+    }
+    #fs-loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      z-index: 20;
+      cursor: pointer;
+      transition: background-color .3s;
+    }
+    #fs-loader:hover {
+      background-color: rgba(0,0,0,0.65);
+    }
+    #fs-iframe {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      border: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <script>
+  (async function(){
+    const LS_KEY = 'ubgHash';
+    const hash = localStorage.getItem(LS_KEY);
+    // 1) Gate
+    let txt;
+    try {
+      txt = await fetch('https://services.depoxt.xyz/urls/ubg_allowed.txt')
+                .then(r => r.text());
+    } catch {
+      return document.body.innerHTML =
+        '<div class="denied-page"><p>Device is not permitted</p></div>';
+    }
+    const allowed = txt.split('\n').map(l=>l.trim()).filter(Boolean);
+    if (!hash || !allowed.includes(hash)) {
+      return document.body.innerHTML =
+        '<div class="denied-page"><p>Device is not permitted</p></div>';
+    }
+
+    // 2) Passed gate → set up UI
+    // Put a “Click to Play” overlay
+    const loader = document.createElement('div');
+    loader.id = 'fs-loader';
+    loader.textContent = '▶️ Click to Play';
+    document.body.appendChild(loader);
+
+    // When user clicks, load the iframe, request fullscreen, then hide overlay
+    loader.addEventListener('click', async () => {
+      // parse ?activity=
+      const params = new URLSearchParams(window.location.search);
+      const enc = params.get('activity');
+      if (!enc) {
+        loader.textContent = '❌ No game specified.';
+        return;
+      }
+      let name;
+      try { name = atob(decodeURIComponent(enc)); }
+      catch {
+        loader.textContent = '❌ Invalid game identifier.';
+        return;
+      }
+
+      // fetch game list
+      let list;
+      try {
+        list = await fetch('https://services.depoxt.xyz/urls/ubg.json').then(r=>r.json());
+      } catch {
+        loader.textContent = '⚠️ Could not load game list.';
+        return;
+      }
+      const game = list.find(g=>g.name===name);
+      if (!game) {
+        loader.textContent = `❌ Game “${name}” not found.`;
+        return;
+      }
+
+      // create and append iframe
+      const iframe = document.createElement('iframe');
+      iframe.id = 'fs-iframe';
+      iframe.src = game.game_url;
+      // allow sensors if needed:
+      iframe.allow = 'accelerometer; gyroscope; magnetometer; autoplay';
+      document.body.appendChild(iframe);
+
+      // once loaded, hide overlay and trigger fullscreen
+      iframe.onload = () => {
+        loader.style.display = 'none';
+        // user-click happened already, so this is allowed
+        if (iframe.requestFullscreen) {
+          iframe.requestFullscreen().catch(()=>{/* ignore */});
+        }
+      };
+    });
+  })();
+  </script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tasks = [
+      'Practice Vocabulary',
+      'Write a Short Poem',
+      'Read a News Article',
+      'Learn a New Idiom',
+      'Watch an English Video',
+      'Listen to a Podcast',
+      'Write a Journal Entry',
+      'Study a Grammar Rule',
+      'Read a Short Story',
+      'Practice Pronunciation',
+      // new, more concept-driven prompts:
+      'What is a metaphor?',
+      'Identify a metaphor in a poem',
+      'Explain the difference between a simile and a metaphor',
+      'Create your own extended metaphor',
+      'Find an example of personification',
+      'Spot the idiom: practice quiz',
+      'List five synonyms for "happy"',
+      'Translate an idiom into your native language',
+      'Analyze the metaphor in a song lyric',
+      'Draw a comic illustrating a metaphor'
+    ];
+    const rnd = tasks[Math.floor(Math.random() * tasks.length)];
+    document.title = rnd;
+    document.getElementById('random-task').textContent = rnd;
+  });
+</script>
+
+</body>
+</html>

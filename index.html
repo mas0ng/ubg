@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>English Papers</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="activities.html">Activities</a>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <h1>Welcome to English Papers</h1>
+    <p class="subtitle">
+      Your go-to platform for learning and practicing English—whether it’s through
+      well-researched articles or interactive exercises have fun and enjoy learning. We've got you covered!
+    </p>
+
+    <!-- Random English Task Display -->
+    <div id="random-task" class="random-task"></div>
+
+    <!-- Featured Articles Section -->
+    <section class="featured-section">
+      <h2>Featured Articles</h2>
+      <ul class="article-list">
+        <li>
+          <a href="article?article=1">Mastering the Present Perfect</a>
+          <p>Understand usage, common pitfalls, and try examples.</p>
+        </li>
+        <li>
+          <a href="article?article=2">10 Must-Know Idioms for Everyday Conversation</a>
+          <p>Learn these idioms and how to use them naturally.</p>
+        </li>
+        <li>
+          <a href="article?article=3">Pronunciation Tricks for Clearer Speech</a>
+          <p>Tips and exercises to reduce your accent and improve clarity.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Learning Resources Section -->
+    <section class="featured-section">
+      <h2>Learning Resources</h2>
+      <ul class="resources-list">
+        <li>
+          <a href="article?article=4">Interactive Grammar Quizzes</a>
+          <p>Test yourself with instant feedback on key grammar points.</p>
+        </li>
+        <li>
+          <a href="article?article=5">Downloadable Vocabulary Worksheets</a>
+          <p>Printable lists and exercises for offline study.</p>
+        </li>
+        <li>
+          <a href="article?article=6">Conversation Practice Forum</a>
+          <p>Pair up with fellow learners to improve speaking skills.</p>
+        </li>
+      </ul>
+    </section>
+
+
+  </main>
+
+  <!-- Footer -->
+
+
+  <!-- Random Task Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tasks = [
+        'Practice Vocabulary',
+        'Write a Short Poem',
+        'Read a News Article',
+        'Learn a New Idiom',
+        'Watch an English Video',
+        'Listen to a Podcast',
+        'Write a Journal Entry',
+        'Study a Grammar Rule',
+        'Read a Short Story',
+        'Practice Pronunciation'
+      ];
+      const random = tasks[Math.floor(Math.random() * tasks.length)];
+      document.title = random;
+      document.getElementById('random-task').textContent = random;
+    });
+  </script>
+</body>
+</html>

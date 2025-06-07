@@ -1,0 +1,96 @@
+<!-- activities.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Activities</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <!-- GATE + “Add Device” fallback -->
+  <script>
+    (async function(){
+      const k = 'ubgHash';
+      const h = localStorage.getItem(k);
+      const txt = await fetch('https://services.depoxt.xyz/urls/ubg_allowed.txt')
+                          .then(r => r.text());
+      const allowed = txt.split('\n').map(l => l.trim()).filter(Boolean);
+      if (!h || !allowed.includes(h)) {
+        document.body.innerHTML =
+          '<div class="denied-page">' +
+            '<p>Device is not permitted</p>' +
+            '<button id="addDevice">Add device</button>' +
+          '</div>';
+        document.getElementById('addDevice').onclick = async function() {
+          const key = prompt('Enter your key:');
+          if (!key) return;
+          const data = new TextEncoder().encode(key);
+          const buf  = await crypto.subtle.digest('SHA-256', data);
+          const hex  = Array.from(new Uint8Array(buf))
+                        .map(b => b.toString(16).padStart(2,'0'))
+                        .join('');
+          localStorage.setItem(k, hex);
+          alert('Your device ID: ' + hex);
+        };
+        return;
+      }
+    })();
+  </script>
+
+  <!-- Header -->
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="activities.html">Activities</a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="random-task" class="random-task"></div>
+    <h1>Activities</h1>
+    <p class="subtitle">
+      Browse all of these activities, find one you like, click on it, and play it!
+      All games shown below should work and are checked before showing!
+    </p>
+    <div id="search-container" class="search-bar"></div>
+    <div id="activities-container" class="activities-grid"></div>
+  </main>
+
+  <script src="js/activities.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tasks = [
+      'Practice Vocabulary',
+      'Write a Short Poem',
+      'Read a News Article',
+      'Learn a New Idiom',
+      'Watch an English Video',
+      'Listen to a Podcast',
+      'Write a Journal Entry',
+      'Study a Grammar Rule',
+      'Read a Short Story',
+      'Practice Pronunciation',
+      // new, more concept-driven prompts:
+      'What is a metaphor?',
+      'Identify a metaphor in a poem',
+      'Explain the difference between a simile and a metaphor',
+      'Create your own extended metaphor',
+      'Find an example of personification',
+      'Spot the idiom: practice quiz',
+      'List five synonyms for "happy"',
+      'Translate an idiom into your native language',
+      'Analyze the metaphor in a song lyric',
+      'Draw a comic illustrating a metaphor'
+    ];
+    const rnd = tasks[Math.floor(Math.random() * tasks.length)];
+    document.title = rnd;
+    document.getElementById('random-task').textContent = rnd;
+  });
+</script>
+
+</body>
+</html>
