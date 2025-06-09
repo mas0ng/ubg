@@ -331,3 +331,23 @@ footer {
   cursor: pointer;
   box-shadow: 0 2px 4px var(--shadow-color);
 }
+
+.warning-banner {
+  background-color: rgba(255, 0, 0, 0.15); /* semi-transparent red */
+  border: 2px solid red; /* red outline */
+  color: red; /* red text */
+  border-radius: var(--radius); /* use your global radius */
+  padding: 1rem 1.5rem;
+  margin: 1rem auto;
+  max-width: 800px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.warning-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px var(--shadow-color);
+}
