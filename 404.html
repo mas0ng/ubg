@@ -1,27 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-  <title>404 Not Found</title>
-  <link rel="stylesheet" href="css/main.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>We've Moved</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@300;400;500&display=swap');
+
+    :root {
+      --accent-color: #2176FF;
+      --accent-hover: #1a5fd0;
+      --background-color: #FAFAFA;
+      --surface-color: #FFFFFF;
+      --text-primary: #212121;
+      --text-secondary: #616161;
+      --border-color: #E0E0E0;
+      --shadow-color: rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+      --transition-speed: 0.2s;
+      --font-sans: 'Roboto', sans-serif;
+      --font-heading: 'Montserrat', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--background-color);
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      text-align: center;
+    }
+
+    .notice {
+      padding: 2rem;
+      background: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px var(--shadow-color);
+      animation: fadeInUp 0.8s ease-out both;
+      max-width: 400px;
+    }
+    .notice h1 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      animation: slideIn 0.6s ease-out both;
+    }
+    .notice p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      animation: fadeIn 1s ease-out both 0.3s;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      box-shadow: 0 4px 8px var(--shadow-color);
+      transition: background-color var(--transition-speed), transform var(--transition-speed);
+      animation: pulse 2s infinite ease-in-out 1s;
+    }
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.05); }
+    }
+  </style>
 </head>
 <body>
-  <!-- Site header/nav (same as other pages) -->
-
-
-  <!-- Main 404 message, centered via .denied-page -->
-  <main>
-    <div class="denied-page">
-      <h1>404</h1>
-      <p>Oops! The page you’re looking for can’t be found.</p>
-      <a href="index.html" class="btn-primary">Return Home</a>
-    </div>
-  </main>
-
-
+  <div class="notice">
+    <h1>Hey! 👋</h1>
+    <p>We've moved domains, you can now find englishpapers on <strong>www.englishpapers.org</strong></p>
+    <button class="btn-primary" onclick="window.location.href='https://www.englishpapers.org'">
+      Go to englishpapers.org
+    </button>
+  </div>
 </body>
 </html>
